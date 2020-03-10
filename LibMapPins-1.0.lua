@@ -26,20 +26,12 @@
 -- OTHER DEALINGS IN THE SOFTWARE.
 --
 -------------------------------------------------------------------------------
-local MAJOR, MINOR = "LibMapPins-1.0", 18
-
-local lib, oldminor
-if LibStub then
-   lib, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
-else
-   lib = {}
-end
-if not lib then return end
-
+local libName, libVersion = "LibMapPins-1.0", 19
+local lib
+lib = {}
 -------------------------------------------------------------------------------
-lib.name = MAJOR
-lib.version = MINOR
-lib.updateFrom = lib.updateFrom or oldminor
+lib.name = libName
+lib.version = libVersion
 lib.hookVersions = lib.hookVersions or setmetatable({}, { __index = function() return 0 end })
 lib.filters = lib.filters or {}
 
@@ -737,9 +729,7 @@ function lib.OnMapChanged()
    end
 end
 
-if not oldminor then
-   CALLBACK_MANAGER:RegisterCallback("OnWorldMapChanged", lib.OnMapChanged)
-end
+CALLBACK_MANAGER:RegisterCallback("OnWorldMapChanged", lib.OnMapChanged)
 
 -------------------------------------------------------------------------------
 -- Hooks ----------------------------------------------------------------------

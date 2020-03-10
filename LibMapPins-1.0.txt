@@ -1,14 +1,3 @@
-## Title: LibMapPins 1.0 r18
-## Version: 1.0 r18
-## AddOnVersion: 10018
-## Author: Assembler Maniac
-## Original Author: Garkin, Sensi
-## APIVersion: 100029 100030
-## IsLibrary: true
-## OptionalDependsOn: LibStub
-
-LibMapPins-1.0.lua
-
 ; This Add-on is not created by, affiliated with or sponsored by ZeniMax
 ; Media Inc. or its affiliates. The Elder Scrolls� and related logos are
 ; registered trademarks or trademarks of ZeniMax Media Inc. in the United
@@ -16,3 +5,12 @@ LibMapPins-1.0.lua
 ;
 ; You can read the full terms at:
 ; https://account.elderscrollsonline.com/add-on-terms
+## Title: LibMapPins 1.0 r18
+## Version: 1.19
+## AddOnVersion: 10019
+## Author: Assembler Maniac
+## Original Author: Garkin, Sensi
+## APIVersion: 100029 100030
+## IsLibrary: true
+
+LibMapPins-1.0.lua
