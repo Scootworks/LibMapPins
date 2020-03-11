@@ -26,12 +26,20 @@
 -- OTHER DEALINGS IN THE SOFTWARE.
 --
 -------------------------------------------------------------------------------
-local libName, libVersion = "LibMapPins-1.0", 19
-local lib
-lib = {}
+local MAJOR, MINOR = "LibMapPins-1.0", 18
+
+local lib, oldminor
+if LibStub then
+   lib, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
+else
+   lib = {}
+end
+if not lib then return end
+
 -------------------------------------------------------------------------------
-lib.name = libName
-lib.version = libVersion
+lib.name = MAJOR
+lib.version = MINOR
+lib.updateFrom = lib.updateFrom or oldminor
 lib.hookVersions = lib.hookVersions or setmetatable({}, { __index = function() return 0 end })
 lib.filters = lib.filters or {}
 
@@ -729,7 +737,9 @@ function lib.OnMapChanged()
    end
 end
 
-CALLBACK_MANAGER:RegisterCallback("OnWorldMapChanged", lib.OnMapChanged)
+if not oldminor then
+   CALLBACK_MANAGER:RegisterCallback("OnWorldMapChanged", lib.OnMapChanged)
+end
 
 -------------------------------------------------------------------------------
 -- Hooks ----------------------------------------------------------------------
@@ -941,11 +951,15 @@ SLASH_COMMANDS["/lmploc"] = function() lib:MyPosition() end
 ## APIVersion: 100012
 ## SavedVariables: MapPinTest_SavedVariables
 
+Libs/LibStub/LibStub.lua
+Libs/LibMapPins-1.0/LibMapPins-1.0.lua
+
 MapPinTest.lua
 
 -------------------------------------------------------------------------------
 -- MapPinTest/MapPinTest.lua
 -------------------------------------------------------------------------------
+local LMP = LibStub("LibMapPins-1.0")
 
 local pinType1 = "My_unique_name"
 local pinType2 = "My_even_more_unique_name"
