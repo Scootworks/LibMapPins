@@ -693,16 +693,42 @@ end
 -- 2: "zone/subzone"       (this format is used by HarvestMap)
 -- If argument is nil or false, function returns first format
 -------------------------------------------------------------------------------
+--[[ changed to cover these situations
+   "/art/maps/southernelsweyr/els_dragonguard_island05_base_8.dds",
+   "/art/maps/murkmire/tsofeercavern01_1.dds",
+   "/art/maps/housing/blackreachcrypts.base_0.dds",
+   "/art/maps/housing/blackreachcrypts.base_1.dds",
+   "Art/maps/skyrim/blackreach_base_0.dds",
+   "Textures/maps/summerset/alinor_base.dds",
+]]--
+   
+local function mysplit(inputstr, sep)
+        if sep == nil then
+                sep = "%s"
+        end
+        local t={}
+        for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+                table.insert(t, str)
+        end
+        return t
+end
+
 function lib:GetZoneAndSubzone(alternative, bStripUIMap)
 	local mapTexture = GetMapTileTexture():lower()
+	mapTexture = mapTexture:gsub("^.*maps/", "")
 	if bStripUIMap == true then
 		mapTexture = mapTexture:gsub("ui_map_", "")
 	end
+	mapTexture = mapTexture:gsub("%.dds$", "")
+	mapTexture = mapTexture:gsub("%d*$", "")
+	mapTexture = mapTexture:gsub("_+$", "")
+	splitresult = mysplit(mapTexture, "%/")
+
 	if alternative then
-		return select(3,mapTexture:find("maps/([%w%-]+/[%w%-]+_[%w%-]+)"))
+		return mapTexture
 	end
 
-	return select(3,mapTexture:find("maps/([%w%-]+)/([%w%-]+_[%w%-]+)"))
+	return splitresult[1], splitresult[2]
 end
 
 
