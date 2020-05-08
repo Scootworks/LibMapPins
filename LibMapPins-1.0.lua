@@ -689,9 +689,13 @@ end
 -- Returns zone and subzone derived from map texture.
 
 -- You can select from 2 formats:
--- 1: "zone", "subzone"    (that's what I use in my addons)
--- 2: "zone/subzone"       (this format is used by HarvestMap)
--- If argument is nil or false, function returns first format
+-- 1: "zone", "subzone"                     (that's what I use in my addons)
+-- 2: "zone/subzone"                        (used by HarvestMap)
+-- If 2nd argument is nil or false, function returns first format
+
+-- Additionally if the third argument bKeepMapNBum is true you will preserve 
+-- the ending of the map texture.
+-- 3: "zone/subzone_0" or "zone", "subzone_0" (used by Destinations)
 -------------------------------------------------------------------------------
 --[[ changed to cover these situations
    "/art/maps/southernelsweyr/els_dragonguard_island05_base_8.dds",
@@ -713,15 +717,17 @@ local function mysplit(inputstr, sep)
         return t
 end
 
-function lib:GetZoneAndSubzone(alternative, bStripUIMap)
+function lib:GetZoneAndSubzone(alternative, bStripUIMap, bKeepMapNum)
 	local mapTexture = GetMapTileTexture():lower()
 	mapTexture = mapTexture:gsub("^.*maps/", "")
 	if bStripUIMap == true then
 		mapTexture = mapTexture:gsub("ui_map_", "")
 	end
 	mapTexture = mapTexture:gsub("%.dds$", "")
-	mapTexture = mapTexture:gsub("%d*$", "")
-	mapTexture = mapTexture:gsub("_+$", "")
+	if not bKeepMapNum then
+		mapTexture = mapTexture:gsub("%d*$", "")
+		mapTexture = mapTexture:gsub("_+$", "")
+	end
 	splitresult = mysplit(mapTexture, "%/")
 
 	if alternative then
