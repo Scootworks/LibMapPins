@@ -26,7 +26,7 @@
 -- OTHER DEALINGS IN THE SOFTWARE.
 --
 -------------------------------------------------------------------------------
-local MAJOR, MINOR = "LibMapPins-1.0", 18
+local MAJOR, MINOR = "LibMapPins-1.0", 10019
 
 local lib, oldminor
 if LibStub then
@@ -698,12 +698,16 @@ end
 -- 3: "zone/subzone_0" or "zone", "subzone_0" (used by Destinations)
 -------------------------------------------------------------------------------
 --[[ changed to cover these situations
+    Reference https://wiki.esoui.com/Texture_List/ESO/art/maps
+    
    "/art/maps/southernelsweyr/els_dragonguard_island05_base_8.dds",
    "/art/maps/murkmire/tsofeercavern01_1.dds",
    "/art/maps/housing/blackreachcrypts.base_0.dds",
    "/art/maps/housing/blackreachcrypts.base_1.dds",
    "Art/maps/skyrim/blackreach_base_0.dds",
    "Textures/maps/summerset/alinor_base.dds",
+   "art/maps/murkmire/ui_map_tsofeercavern01_0.dds",
+   "art/maps/elsweyr/jodesembrace1.base_0.dds",
 ]]--
    
 local function mysplit(inputstr, sep)
