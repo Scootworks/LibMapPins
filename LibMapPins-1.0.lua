@@ -933,10 +933,11 @@ EVENT_MANAGER:RegisterForEvent(lib.name, EVENT_ADD_ON_LOADED, OnLoad)
 -------------------------------------------------------------------------------
 -- lib:MyPosition()
 -------------------------------------------------------------------------------
--- Returns the player position on current map as a chat output.
--- The output format is prepared for the data collection.
+-- Returns the player position on current map.
+-- Not really intended for use as a library function.
+-- For example it does not return the different formats from GetZoneAndSubzone
 -------------------------------------------------------------------------------
-function lib:MyPosition(preventOutput)
+function lib:MyPosition()
     if SetMapToPlayerLocation() == SET_MAP_RESULT_MAP_CHANGED then
         CALLBACK_MANAGER:FireCallbacks("OnWorldMapChanged")
     end
@@ -945,22 +946,19 @@ function lib:MyPosition(preventOutput)
     local x, y = GetMapPlayerPosition("player")
     local zone, subzone = self:GetZoneAndSubzone()
 
-    if preventOutput then
-        return x, y, zone, subzone, mapName
-    else
-        return CHAT_ROUTER:AddDebugMessage(string.format("[\"%s\"][\"%s\"] = { %0.5f, %0.5f } -- %s", zone, subzone, x, y, mapName))
-    end
+    return x, y, zone, subzone, mapName
 end
 
-if SLASH_COMMANDS['/mypos'] == nil then
-    SLASH_COMMANDS["/mypos"] = function() lib:MyPosition(true) end
-    SLASH_COMMANDS["/myloc"] = function() lib:MyPosition() end
+-------------------------------------------------------------------------------
+-- Displays the player position on current map.
+-- The output format is prepared for the data collection.
+-------------------------------------------------------------------------------
+local function show_position()
+    x, y, zone, subzone, mapName = lib:MyPosition()
+    d(string.format("[\"%s\"][\"%s\"] = { %0.5f, %0.5f } -- %s", zone, subzone, x, y, mapName))
 end
 
-SLASH_COMMANDS["/lmppos"] = function() lib:MyPosition(true) end
-SLASH_COMMANDS["/lmploc"] = function() lib:MyPosition() end
-
-
+SLASH_COMMANDS["/lmploc"] = function() show_position() end
 
 -------------------------------------------------------------------------------
 -- Useful methods for pins:

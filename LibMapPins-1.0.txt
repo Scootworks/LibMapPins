@@ -2,7 +2,7 @@
 ## Version: 1.0 r21
 ## AddOnVersion: 10021
 ## Author: Garkin
-## Contributors: Sensi, Assembler Maniac, Sharlikran,  Scootworks 
+## Contributors: Sensi, Assembler Maniac, Sharlikran,  Scootworks
 ## APIVersion: 100030 100031
 ## IsLibrary: true
 ## OptionalDependsOn: LibStub
