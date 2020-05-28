@@ -139,7 +139,13 @@ function lib:AddPinType(pinTypeString, pinTypeAddCallback, pinTypeOnResizeCallba
 
     if type(pinTooltipCreator) == "string" then
         local text = pinTooltipCreator
-        pinTooltipCreator = { creator = function(pin) SetTooltipText(InformationTooltip, text) end, tooltip = 1 }
+        pinTooltipCreator =
+            {
+                creator = function(pin)
+                    SetTooltipText(InformationTooltip, text)
+                end,
+                tooltip = 1,
+            }
     elseif type(pinTooltipCreator) == "table" then
         if type(pinTooltipCreator.tooltip) ~= "number" then
             pinTooltipCreator.tooltip = 1 --InformationTooltip
