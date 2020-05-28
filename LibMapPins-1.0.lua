@@ -26,7 +26,7 @@
 -- OTHER DEALINGS IN THE SOFTWARE.
 --
 -------------------------------------------------------------------------------
-local MAJOR, MINOR = "LibMapPins-1.0", 10021
+local MAJOR, MINOR = "LibMapPins-1.0", 10022
 
 local lib, oldminor
 if LibStub then
