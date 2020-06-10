@@ -1,16 +1,16 @@
-## Title: LibMapPins 1.0 r24
-## Version: 1.0 r24
-## AddOnVersion: 10024
+## Title: LibMapPins
+## Version: 1.0 r25
+## AddOnVersion: 10025
 ## Author: Garkin
-## Contributors: Sensi, Assembler Maniac, Sharlikran,  Scootworks
-## APIVersion: 100030 100031
+## Contributors: Sensi, Assembler Maniac, Sharlikran, Scootworks
+## APIVersion: 100031 100032
 ## IsLibrary: true
 ## OptionalDependsOn: LibStub
 
 LibMapPins-1.0.lua
 
 ; This Add-on is not created by, affiliated with or sponsored by ZeniMax
-; Media Inc. or its affiliates. The Elder Scrolls� and related logos are
+; Media Inc. or its affiliates. The Elder Scrolls® and related logos are
 ; registered trademarks or trademarks of ZeniMax Media Inc. in the United
 ; States and/or other countries. All rights reserved.
 ;
