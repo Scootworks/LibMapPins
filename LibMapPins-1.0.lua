@@ -728,17 +728,22 @@ end
 -------------------------------------------------------------------------------
 -- support "grayscale" in pinLayoutData
 -------------------------------------------------------------------------------
-ZO_PostHook(ZO_MapPin, "SetData", function(self, pinTypeId)
-    local grayscale = ZO_MapPin.PIN_DATA[pinTypeId].grayscale
-    if grayscale ~= nil then
-        self.backgroundControl:SetDesaturation((type(grayscale) == "function" and grayscale(self) or grayscale) and 1 or 0)
+ZO_PostHook(ZO_MapPin, "SetData", function(self, pinType)
+    local singlePinData = ZO_MapPin.PIN_DATA[pinType]
+    if singlePinData then
+        local grayscale = singlePinData.grayscale
+        if grayscale ~= nil then
+            self.backgroundControl:SetDesaturation((type(grayscale) == "function" and grayscale(self) or grayscale) and 1 or 0)
+        end
     end
 end)
 
 ZO_PostHook(ZO_MapPin, "ClearData", function(self, ...)
-    self.backgroundControl:SetDesaturation(0)
+    local control = self.backgroundControl
+    if control then
+        self.backgroundControl:SetDesaturation(0)
+    end
 end)
-
 
 -------------------------------------------------------------------------------
 -- Scrollbox for map filters
