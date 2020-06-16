@@ -670,7 +670,7 @@ end
 
 function lib:GetZoneAndSubzone(alternative, bStripUIMap, bKeepMapNum)
     local mapTexture = GetMapTileTexture():lower()
-    mapTexture = mapTexture:gsub("^.*maps/", "")
+    mapTexture = mapTexture:gsub("^.*/maps/", "")
     if bStripUIMap == true then
         mapTexture = mapTexture:gsub("ui_map_", "")
     end
