@@ -650,31 +650,26 @@ end
    "art/maps/elsweyr/jodesembrace1.base_0.dds",
 ]]--
 
-local function mysplit(inputstr)
-    local t = {}
-    for str in string.gmatch(inputstr, "([^%/]+)") do
-        table.insert(t, str)
+local function SplitStringBySlash(str)
+    local strTable = {}
+    for str in string.gmatch(str, "([^%/]+)") do
+        table.insert(strTable, str)
     end
-    return t
+    return strTable
 end
 
 function lib:GetZoneAndSubzone(alternative, bStripUIMap, bKeepMapNum)
-    local mapTexture = GetMapTileTexture():lower()
-    mapTexture = mapTexture:gsub("^.*/maps/", "")
-    if bStripUIMap == true then
+    local mapTexture = GetMapTileTexture():lower():gsub("^.*/maps/", ""):gsub("%.dds$", "")
+    if bStripUIMap then
         mapTexture = mapTexture:gsub("ui_map_", "")
     end
-    mapTexture = mapTexture:gsub("%.dds$", "")
     if not bKeepMapNum then
-        mapTexture = mapTexture:gsub("%d*$", "")
-        mapTexture = mapTexture:gsub("_+$", "")
+        mapTexture = mapTexture:gsub("%d*$", ""):gsub("_+$", "")
     end
-
     if alternative then
         return mapTexture
     end
-
-    return unpack(mysplit(mapTexture))
+    return unpack(SplitStringBySlash(mapTexture))
 end
 
 
