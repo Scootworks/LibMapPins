@@ -53,16 +53,7 @@ lib.name = MAJOR
 lib.version = MINOR
 lib.updateFrom = lib.updateFrom or oldminor
 lib.filters = lib.filters or {}
-
-if not lib.pinManager then
-    local pinType = "LibMapPins_Hack_to_get_PinManager"
-    ZO_WorldMap_AddCustomPin(pinType, function(pinManager) lib.pinManager = pinManager end)
-    ZO_WorldMap_SetCustomPinEnabled(_G[pinType], true)
-    ZO_WorldMap_RefreshCustomPinsOfType(_G[pinType])
-    lib.pinManager.customPins[_G[pinType]] = nil
-    lib.pinManager.m_keyToPinMapping[_G[pinType]] = nil
-    _G[pinType] = nil
-end
+lib.pinManager = lib.pinManager or ZO_WorldMap_GetPinManager()
 
 local function GetPinTypeId(pinType)
     local pinTypeId
@@ -173,7 +164,8 @@ function lib:AddPinType(pinTypeString, pinTypeAddCallback, pinTypeOnResizeCallba
         pinLayoutData = { level = 40, texture = "EsoUI/Art/Inventory/newitem_icon.dds" }
     end
 
-    if type(pinTooltipCreator) == "string" then
+    local tooltipType = type(pinTooltipCreator)
+    if tooltipType == "string" then
         local text = pinTooltipCreator
         pinTooltipCreator = {
             creator = function(pin)
@@ -187,10 +179,8 @@ function lib:AddPinType(pinTypeString, pinTypeAddCallback, pinTypeOnResizeCallba
             end,
             tooltip = ZO_MAP_TOOLTIP_MODE.INFORMATION,
         }
-    elseif type(pinTooltipCreator) == "table" then
-        if type(pinTooltipCreator.tooltip) ~= "number" then
-            pinTooltipCreator.tooltip = ZO_MAP_TOOLTIP_MODE.INFORMATION
-        end
+    elseif tooltipType == "table" and type(pinTooltipCreator.tooltip) ~= "number" then
+        pinTooltipCreator.tooltip = ZO_MAP_TOOLTIP_MODE.INFORMATION
     elseif pinTooltipCreator ~= nil then
         return
     end
@@ -757,8 +747,8 @@ end)
 -------------------------------------------------------------------------------
 -- Scrollbox for map filters
 -------------------------------------------------------------------------------
-local function OnLoad(code, addon)
-    if addon:find("^ZO") then return end
+local function OnAddOnLoaded(eventCode, addOnName)
+    if addOnName:find("^ZO") then return end
     EVENT_MANAGER:UnregisterForEvent(lib.name, EVENT_ADD_ON_LOADED)
 
     if WORLD_MAP_FILTERS.pvePanel.checkBoxPool then
@@ -873,7 +863,7 @@ local function OnLoad(code, addon)
         ZO_WorldMapFiltersBattlegroundContainer:SetAnchorFill()
     end
 end
-EVENT_MANAGER:RegisterForEvent(lib.name, EVENT_ADD_ON_LOADED, OnLoad)
+EVENT_MANAGER:RegisterForEvent(lib.name, EVENT_ADD_ON_LOADED, OnAddOnLoaded)
 
 -------------------------------------------------------------------------------
 -- lib:MyPosition()
@@ -1021,7 +1011,7 @@ local pinTypeOnResizeCallback = function(pinManager, mapWidth, mapHeight)
    end
 end
 
-local function OnLoad(eventCode, name)
+local function OnAddOnLoaded(eventCode, name)
    if name ~= "MapPinTest" then return end
 
    --saved variables
@@ -1038,7 +1028,7 @@ local function OnLoad(eventCode, name)
    EVENT_MANAGER:UnregisterForEvent("MapPinTest_OnLoad", eventCode)
 end
 
-EVENT_MANAGER:RegisterForEvent("MapPinTest_OnLoad", EVENT_ADD_ON_LOADED, OnLoad)
+EVENT_MANAGER:RegisterForEvent("MapPinTest_OnLoad", EVENT_ADD_ON_LOADED, OnAddOnLoaded)
 -------------------------------------------------------------------------------
 -- END of sample code
 --]]---------------------------------------------------------------------------
