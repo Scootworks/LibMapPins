@@ -83,87 +83,83 @@ end
 -------------------------------------------------------------------------------
 -- Arguments used by most of the functions:
 --
--- pinType:       either pinTypeId or pinTypeString, you can use both
--- pinTypeString: unique string name of your choice (it will be used as a name
---                for global variable)
--- pinTypeId:     unique number code for your pin type, return value from lib:AddPinType
---                ( local pinTypeId = _G[pinTypeString] )
--- pinLayoutData: table which can contain the following keys:
---    level =     number > 2, pins with higher level are drawn on the top of pins
---                with lower level.
---                Examples: Points of interest 50, quests 110, group members 130,
---                wayshrine 140, player 160.
---    texture =   string of function(pin). Function can return just one texture
---                or overlay, pulse and glow textures.
---    size =      texture will be resized to size*size, if not specified size is 20.
---    tint  =     ZO_ColorDef object or function(pin) which returns this object.
---                If defined, color of background texture is set to this color.
---    grayscale = true/false, could be function(pin). If defined and not false,
---                background texure will be converted to grayscale (https://en.wikipedia.org/wiki/Colorfulness)
---    insetX =    size of transparent texture border, used to handle mouse clicks
---    insetY =    dtto
---    minSize =   if not specified, default value is 18
---    minAreaSize = used for area pins
+-- pinType:             either pinTypeId or pinTypeString, you can use both
+-- pinTypeString:       unique string name of your choice (it will be used as a name for global variable)
+-- pinTypeId:           unique number code for your pin type, return value from lib:AddPinType
+--                      ( local pinTypeId = _G[pinTypeString] )
+-- pinLayoutData:       table which can contain the following keys:
+--              level = number > 2, pins with higher level are drawn on the top of pins with lower level.
+--                      Examples: Points of interest 50, quests 110, group members 130, wayshrine 140, player 160.
+--            texture = string of function(pin). Function can return just one texture
+--                      or overlay, pulse and glow textures.
+--               size = texture will be resized to size*size, if not specified size is 20.
+--              tint  = ZO_ColorDef object or function(pin) which returns this object.
+--                      If defined, color of background texture is set to this color.
+--          grayscale = true/false, could be function(pin). If defined and not false,
+--                      background texure will be converted to grayscale (https://en.wikipedia.org/wiki/Colorfulness)
+--             insetX = size of transparent texture border, used to handle mouse clicks
+--             insetY = dito
+--            minSize = (optional) number, default value is 18
+--        minAreaSize = used for area pins
 --    showsPinAndArea = true/false
---    isAnimated = true/false
---
+--         isAnimated = true/false
 -------------------------------------------------------------------------------
 -- lib:AddPinType(pinTypeString, pinTypeAddCallback, pinTypeOnResizeCallback, pinLayoutData, pinTooltipCreator)
 -------------------------------------------------------------------------------
 -- Adds custom pin type
 -- returns: pinTypeId
 --
--- pinTypeString: string
--- pinTypeAddCallback: function(pinManager), will be called every time when map
---                is changed. It should create pins on the current map using the
---                lib:CreatePin(...) function.
--- pinTypeOnResizeCallback: (nilable) function(pinManager, mapWidth, mapHeight),
---                is called when map is resized (zoomed).
--- pinLayoutData:  (nilable) table, details above
--- pinTooltipCreator: (nilable) etiher string to display or table with the
---                following keys:
---    creator =   function(pin) that creates tooltip - or I should say function
---                that will be called when mouse is over the pin, it does not
---                need to create tooltip.
---    tooltip =   (nilable) tooltip mode,  number between 1 and 4. It is
---                defined in mappin.lua as follows:
---                ZO_MAP_TOOLTIP_MODE =
---                {
---                    INFORMATION = 1,
---                    KEEP = 2,
---                    MAP_LOCATION = 3,
---                }
---    hasTooltip = (optional), function(pin) which returns true/false to
---                enable/disable tooltip.
---    gamepadCategory = (nilable) string
---    gamepadCategoryId = (nilable) number, right now it uses one of:
---                local GAMEPAD_PIN_ORDERS = {
---                   DESTINATIONS = 10,
---                   AVA_KEEP = 20,
---                   AVA_OUTPOST = 21,
---                   AVA_RESOURCE = 22,
---                   AVA_GATE = 23,
---                   AVA_ARTIFACT = 24,
---                   AVA_IMPERIAL_CITY = 25,
---                   AVA_FORWARD_CAMP = 26,
---                   CRAFTING = 30,
---                   QUESTS = 40,
---                   PLAYERS = 50,
---                }
---    gamepadCategoryIcon = (nilable) texture path
---    gamepadEntryName = (nilable) string
---    gamepadSpacing = (nilable) boolean
---
+-- pinTypeString:             string
+-- pinTypeAddCallback:        function(pinManager), will be called every time when map is changed.
+--                            It should create pins on the current map using the lib:CreatePin(...) function.
+-- pinTypeOnResizeCallback:   (nilable) function(pinManager, mapWidth, mapHeight), is called when map is resized (zoomed).
+-- pinLayoutData:             (nilable) table, details above
+-- pinTooltipCreator:         (nilable) etiher string to display or table with the following keys:
+--                  creator = function(pin) that creates tooltip, or I should say function that will be called when mouse is over the pin,
+--                            it does not need to create tooltip.
+--                  tooltip = (nilable) tooltip mode, number between 1 and 4. They are defined in mappin.lua as follows:
+--                            ZO_MAP_TOOLTIP_MODE =
+--                            {
+--                                INFORMATION = 1,
+--                                KEEP = 2,
+--                                MAP_LOCATION = 3,
+--                            }
+--               hasTooltip = (optional), function(pin) which returns true/false to enable/disable tooltip.
+--          gamepadCategory = (nilable) string
+--        gamepadCategoryId = (nilable) number, They are defined in mappin.lua as follows:
+--                            ZO_MapPin.PIN_ORDERS =
+--                            {
+--                                DESTINATIONS = 10,
+--                                AVA_KEEP = 20,
+--                                AVA_OUTPOST = 21,
+--                                AVA_TOWN = 22,
+--                                AVA_RESOURCE = 23,
+--                                AVA_GATE = 24,
+--                                AVA_ARTIFACT = 25,
+--                                AVA_IMPERIAL_CITY = 26,
+--                                AVA_FORWARD_CAMP = 27,
+--                                AVA_RESTRICTED_LINK = 28,
+--                                CRAFTING = 30,
+--                                SUGGESTIONS = 34,
+--                                ANTIQUITIES = 38,
+--                                QUESTS = 40,
+--                                WORLD_EVENT_UNITS = 45,
+--                                PLAYERS = 50,
+--                            }
+--      gamepadCategoryIcon = (nilable) texturePath
+--         gamepadEntryName = (nilable) string
+--           gamepadSpacing = (nilable) boolean
 -------------------------------------------------------------------------------
 function lib:AddPinType(pinTypeString, pinTypeAddCallback, pinTypeOnResizeCallback, pinLayoutData, pinTooltipCreator)
     assert(type(pinTypeString) == "string", "Parameter pinTypeString is not a string.")
     assert(not _G[pinTypeString], "Parameter pinTypeString: " .. pinTypeString .. " already exists.")
     assert(type(pinTypeAddCallback) == "function", "Parameter pinTypeAddCallback is not a function.")
 
-    if pinLayoutData == nil then
-        pinLayoutData = { level = 40, texture = "EsoUI/Art/Inventory/newitem_icon.dds" }
+    if type(pinTypeString) ~= "string" or _G[pinTypeString] ~= nil or type(pinTypeAddCallback) ~= "function" then
+        return
     end
 
+    -- Tooltip
     local tooltipType = type(pinTooltipCreator)
     if tooltipType == "string" then
         local text = pinTooltipCreator
@@ -179,18 +175,29 @@ function lib:AddPinType(pinTypeString, pinTypeAddCallback, pinTypeOnResizeCallba
             end,
             tooltip = ZO_MAP_TOOLTIP_MODE.INFORMATION,
         }
-    elseif tooltipType == "table" and type(pinTooltipCreator.tooltip) ~= "number" then
-        pinTooltipCreator.tooltip = ZO_MAP_TOOLTIP_MODE.INFORMATION
+    elseif tooltipType == "table" then
+        if type(pinTooltipCreator.tooltip) ~= "number" then
+            pinTooltipCreator.tooltip = ZO_MAP_TOOLTIP_MODE.INFORMATION
+        end
     elseif pinTooltipCreator ~= nil then
         return
     end
 
+    -- Layout
+    if pinLayoutData == nil then
+        pinLayoutData =
+        {
+            level = 40,
+            texture = "EsoUI/Art/Inventory/newitem_icon.dds"
+        }
+    end
     if type(pinLayoutData.color) == "table" then
         if pinLayoutData.tint == nil or pinLayoutData.tint.UnpackRGBA == nil then
             pinLayoutData.tint = ZO_ColorDef:New(unpack(pinLayoutData.color))
         end
     end
 
+    -- Pin
     self.pinManager:AddCustomPin(pinTypeString, pinTypeAddCallback, pinTypeOnResizeCallback, pinLayoutData, pinTooltipCreator)
     local pinTypeId = _G[pinTypeString]
     self.pinManager:SetCustomPinEnabled(pinTypeId, true)
