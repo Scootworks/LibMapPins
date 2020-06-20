@@ -733,7 +733,7 @@ ZO_PostHook(ZO_MapPin, "SetData", function(self, pinType)
     if singlePinData then
         local grayscale = singlePinData.grayscale
         if grayscale ~= nil then
-            self.backgroundControl:SetDesaturation((type(grayscale) == "function" and grayscale(self) or grayscale) and 1 or 0)
+            self.backgroundControl:SetDesaturation((type(grayscale) == "function" and grayscale(self) or grayscale == true) and 1 or 0)
         end
     end
 end)

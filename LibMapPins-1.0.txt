@@ -1,6 +1,6 @@
 ## Title: LibMapPins
-## Version: 1.0 r27
-## AddOnVersion: 10027
+## Version: 1.0 r28
+## AddOnVersion: 10028
 ## Author: Garkin
 ## Contributors: Sensi, Assembler Maniac, Sharlikran, Scootworks
 ## APIVersion: 100031 100032
