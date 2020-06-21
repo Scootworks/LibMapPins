@@ -165,7 +165,9 @@ end
 --
 -------------------------------------------------------------------------------
 function lib:AddPinType(pinTypeString, pinTypeAddCallback, pinTypeOnResizeCallback, pinLayoutData, pinTooltipCreator)
-    if type(pinTypeString) ~= "string" or _G[pinTypeString] ~= nil or type(pinTypeAddCallback) ~= "function" then return end
+    assert(type(pinTypeString) == "string", "Parameter pinTypeString is not a string.")
+    assert(not _G[pinTypeString], "Parameter pinTypeString: " .. pinTypeString .. " already exists.")
+    assert(type(pinTypeAddCallback) == "function", "Parameter pinTypeAddCallback is not a function.")
 
     if pinLayoutData == nil then
         pinLayoutData = { level = 40, texture = "EsoUI/Art/Inventory/newitem_icon.dds" }
@@ -205,6 +207,13 @@ function lib:AddPinType(pinTypeString, pinTypeAddCallback, pinTypeOnResizeCallba
     self.pinManager:RefreshCustomPins(pinTypeId)
 
     return pinTypeId
+end
+
+SLASH_COMMANDS["/pinlist"] = function()
+    local customPins = lib.pinManager.customPins
+    for pinId, pinLayout in pairs(customPins) do
+        df("pinId: %d - pinName: %s", pinId, pinLayout.pinTypeString)
+    end
 end
 
 -------------------------------------------------------------------------------
