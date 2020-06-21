@@ -109,46 +109,46 @@ end
 -- Adds custom pin type
 -- returns: pinTypeId
 --
--- pinTypeString:             string
--- pinTypeAddCallback:        function(pinManager), will be called every time when map is changed.
---                            It should create pins on the current map using the lib:CreatePin(...) function.
--- pinTypeOnResizeCallback:   (nilable) function(pinManager, mapWidth, mapHeight), is called when map is resized (zoomed).
--- pinLayoutData:             (nilable) table, details above
--- pinTooltipCreator:         (nilable) etiher string to display or table with the following keys:
---                  creator = function(pin) that creates tooltip, or I should say function that will be called when mouse is over the pin,
---                            it does not need to create tooltip.
---                  tooltip = (nilable) tooltip mode, number between 1 and 4. They are defined in mappin.lua as follows:
---                            ZO_MAP_TOOLTIP_MODE =
---                            {
---                                INFORMATION = 1,
---                                KEEP = 2,
---                                MAP_LOCATION = 3,
---                            }
---               hasTooltip = (optional), function(pin) which returns true/false to enable/disable tooltip.
---          gamepadCategory = (nilable) string
---        gamepadCategoryId = (nilable) number, They are defined in mappin.lua as follows:
---                            ZO_MapPin.PIN_ORDERS =
---                            {
---                                DESTINATIONS = 10,
---                                AVA_KEEP = 20,
---                                AVA_OUTPOST = 21,
---                                AVA_TOWN = 22,
---                                AVA_RESOURCE = 23,
---                                AVA_GATE = 24,
---                                AVA_ARTIFACT = 25,
---                                AVA_IMPERIAL_CITY = 26,
---                                AVA_FORWARD_CAMP = 27,
---                                AVA_RESTRICTED_LINK = 28,
---                                CRAFTING = 30,
---                                SUGGESTIONS = 34,
---                                ANTIQUITIES = 38,
---                                QUESTS = 40,
---                                WORLD_EVENT_UNITS = 45,
---                                PLAYERS = 50,
---                            }
---      gamepadCategoryIcon = (nilable) texturePath
---         gamepadEntryName = (nilable) string
---           gamepadSpacing = (nilable) boolean
+-- pinTypeString:           string
+-- pinTypeAddCallback:      function(pinManager), will be called every time when map is changed.
+--                          It should create pins on the current map using the lib:CreatePin(...) function.
+-- pinTypeOnResizeCallback: (nilable) function(pinManager, mapWidth, mapHeight), is called when map is resized (zoomed).
+-- pinLayoutData:           (nilable) table, details above
+-- pinTooltipCreator:       (nilable) etiher string to display or table with the following keys:
+--                creator = function(pin) that creates tooltip, or I should say function that will be called when mouse is over the pin,
+--                          it does not need to create tooltip.
+--                tooltip = (nilable) tooltip mode, number between 1 and 4. They are defined in mappin.lua as follows:
+--                          ZO_MAP_TOOLTIP_MODE =
+--                          {
+--                              INFORMATION = 1,
+--                              KEEP = 2,
+--                              MAP_LOCATION = 3,
+--                          }
+--             hasTooltip = (optional), function(pin) which returns true/false to enable/disable tooltip.
+--        gamepadCategory = (nilable) string
+--      gamepadCategoryId = (nilable) number, They are defined in mappin.lua as follows:
+--                          ZO_MapPin.PIN_ORDERS =
+--                          {
+--                              DESTINATIONS = 10,
+--                              AVA_KEEP = 20,
+--                              AVA_OUTPOST = 21,
+--                              AVA_TOWN = 22,
+--                              AVA_RESOURCE = 23,
+--                              AVA_GATE = 24,
+--                              AVA_ARTIFACT = 25,
+--                              AVA_IMPERIAL_CITY = 26,
+--                              AVA_FORWARD_CAMP = 27,
+--                              AVA_RESTRICTED_LINK = 28,
+--                              CRAFTING = 30,
+--                              SUGGESTIONS = 34,
+--                              ANTIQUITIES = 38,
+--                              QUESTS = 40,
+--                              WORLD_EVENT_UNITS = 45,
+--                              PLAYERS = 50,
+--                          }
+--    gamepadCategoryIcon = (nilable) texturePath
+--       gamepadEntryName = (nilable) string
+--         gamepadSpacing = (nilable) boolean
 -------------------------------------------------------------------------------
 function lib:AddPinType(pinTypeString, pinTypeAddCallback, pinTypeOnResizeCallback, pinLayoutData, pinTooltipCreator)
     assert(type(pinTypeString) == "string", "Parameter pinTypeString is not a string.")
@@ -218,14 +218,12 @@ end
 -------------------------------------------------------------------------------
 -- create single pin on the current map, primary use is from pinTypeAddCallback
 --
--- pinType:       pinTypeId or pinTypeString
--- pinTag:        can be anything, but I recommend using table or string with
---                additional pin details. You can use it later in code.
---                ( local pinTypeId, pinTag = pin:GetPinTypeAndTag() )
---                Argument pinTag is used as an id for functions
---                lib:RemoveCustomPin(...) and lib:FindCustomPin(...).
--- locX, locY:    normalized position on the current map
--- areaRadius:    (nilable)
+-- pinType:    pinTypeId or pinTypeString
+-- pinTag:     can be anything, but I recommend using table or string with additional pin details.
+--             You can use it later in code by ( local pinTypeId, pinTag = pin:GetPinTypeAndTag() )
+--             Argument pinTag is used as an id for functions lib:RemoveCustomPin(...) and lib:FindCustomPin(...).
+-- locX, locY: normalized position on the current map
+-- areaRadius: (nilable)
 -------------------------------------------------------------------------------
 function lib:CreatePin(pinType, pinTag, locX, locY, areaRadius)
     if pinTag == nil or type(locX) ~= "number" or type(locY) ~= "number" then return end
@@ -248,7 +246,7 @@ end
 -- Gets reference to pinLayoutData table
 -- returns: pinLayoutData
 --
--- pinType:       pinTypeId or pinTypeString
+-- pinType: pinTypeId or pinTypeString
 -------------------------------------------------------------------------------
 function lib:GetLayoutData(pinType)
     local pinTypeId = GetPinTypeId(pinType)
@@ -263,8 +261,8 @@ end
 -- Gets a single key from pinLayoutData table
 -- returns: pinLayoutData[key]
 --
--- pinType:       pinTypeId or pinTypeString
--- key:           key name in pinLayoutData table
+-- pinType: pinTypeId or pinTypeString
+-- key:     key name in pinLayoutData table
 -------------------------------------------------------------------------------
 function lib:GetLayoutKey(pinType, key)
     if type(key) ~= "string" then return end
@@ -303,9 +301,9 @@ end
 -------------------------------------------------------------------------------
 -- change a single key in the pinLayoutData table
 --
--- pinType:       pinTypeId or pinTypeString
--- key:           key name in pinLayoutData table
--- data:          data to be stored in pinLayoutData[key]
+-- pinType: pinTypeId or pinTypeString
+-- key:     key name in pinLayoutData table
+-- data:    data to be stored in pinLayoutData[key]
 -------------------------------------------------------------------------------
 function lib:SetLayoutKey(pinType, key, data)
     if type(key) ~= "string" then return end
@@ -322,29 +320,30 @@ end
 -- Adds click handlers for pins of given pinType, if handler is nil, any existing
 -- handler will be removed.
 --
--- pinType:       pinTypeId or pinTypeString
+-- pinType:     pinTypeId or pinTypeString
 --
--- LMB_handler:   hadler for left mouse button
--- RMB_handler:   handler for right mouse button
+-- LMB_handler: handler for left mouse button
+-- RMB_handler: handler for right mouse button
 --
--- handler = {
---    {
---       name = string or function(pin) end  --required
---       callback = function(pin) end        --required
---       show = function(pin) end, (optional) default is true. Callback function
---                is called only when show returns true.
---       duplicates = function(pin1, pin2) end, (optional) default is true.
---                What happens when mouse lick hits more than one pin. If true,
---                pins are considered to be duplicates and just one callback
---                function is called.
---       gamepadName = the same as name, but for gamepad
---    },
+-- handler =
+-- {
+--     {
+--         name =        string or function(pin) end
+--         callback =    function(pin) end
+--         show =        function(pin) end, (optional) default is true. Callback function is called only when show returns true.
+--         duplicates =  function(pin1, pin2) end, (optional) default is true. What happens when mouse lick hits more than one pin.
+--                       If true, pins are considered to be duplicates and just one callback function is called.
+--         gamepadName = the same as name, but for gamepad, (optional)
+--     },
 -- }
--- One handler can have defined more actions, with different conditions in show
--- function. First action with true result from show function will be used.
--- handler = {
---    {name = "name1", callback = callback1, show = show1},
---    {name = "name2", callback = callback2, show = show2},
+--
+-- One handler can have defined more actions, with different conditions in show function.
+-- First action with true result from show function will be used.
+--
+-- handler =
+-- {
+--     { name = "name1", callback = callback1, show = show1 },
+--     { name = "name2", callback = callback2, show = show2 },
 --     ...
 -- }
 -------------------------------------------------------------------------------
@@ -365,7 +364,7 @@ end
 -------------------------------------------------------------------------------
 -- Refreshes pins. If pinType is nil, refreshes all custom pins
 --
--- pinType:       pinTypeId or pinTypeString
+-- pinType: pinTypeId or pinTypeString
 -------------------------------------------------------------------------------
 function lib:RefreshPins(pinType)
     local pinTypeId = GetPinTypeId(pinType)
@@ -377,8 +376,8 @@ end
 -------------------------------------------------------------------------------
 -- Removes custom pin. If pinTag is nil, all pins of the given pinType are removed.
 --
--- pinType:       pinTypeId or pinTypeString
--- pinTag:        id assigned to the pin by function lib:CreatePin(...)
+-- pinType: pinTypeId or pinTypeString
+-- pinTag:  id assigned to the pin by function lib:CreatePin(...)
 -------------------------------------------------------------------------------
 function lib:RemoveCustomPin(pinType, pinTag)
     local pinTypeId, pinTypeString = GetPinTypeIdAndString(pinType)
@@ -392,8 +391,8 @@ end
 -------------------------------------------------------------------------------
 -- Returns pin.
 --
--- pinType:       pinTypeId or pinTypeString
--- pinTag:        id assigned to the pin by function lib:CreatePin(...)
+-- pinType: pinTypeId or pinTypeString
+-- pinTag:  id assigned to the pin by function lib:CreatePin(...)
 -------------------------------------------------------------------------------
 function lib:FindCustomPin(pinType, pinTag)
     if pinTag == nil then return end
@@ -409,7 +408,7 @@ end
 -------------------------------------------------------------------------------
 -- Set add callback
 --
--- pinType:       pinTypeId or pinTypeString
+-- pinType:            pinTypeId or pinTypeString
 -- pinTypeAddCallback: function(pinManager)
 -------------------------------------------------------------------------------
 function lib:SetAddCallback(pinType, pinTypeAddCallback)
@@ -426,7 +425,7 @@ end
 -------------------------------------------------------------------------------
 -- Set OnResize callback
 --
--- pinType:       pinTypeId or pinTypeString
+-- pinType:                 pinTypeId or pinTypeString
 -- pinTypeOnResizeCallback: function(pinManager, mapWidth, mapHeight)
 -------------------------------------------------------------------------------
 function lib:SetResizeCallback(pinType, pinTypeOnResizeCallback)
@@ -444,7 +443,7 @@ end
 -- Checks if pins are enabled
 -- returns: true/false
 --
--- pinType:       pinTypeId or pinTypeString
+-- pinType: pinTypeId or pinTypeString
 -------------------------------------------------------------------------------
 function lib:IsEnabled(pinType)
     local pinTypeId = GetPinTypeId(pinType)
@@ -459,9 +458,8 @@ end
 -- Set enabled/disabled state of the given pinType. It will also update state
 -- of world map filter checkbox.
 --
--- pinType:       pinTypeId or pinTypeString
--- state:         true/false, as false is considered nil, false or 0. All other
---                values are true.
+-- pinType: pinTypeId or pinTypeString
+-- state:   true/false, as false is considered nil, false or 0. All other values are true.
 -------------------------------------------------------------------------------
 function lib:SetEnabled(pinType, state)
     local pinTypeId = GetPinTypeId(pinType)
@@ -501,7 +499,7 @@ end
 -------------------------------------------------------------------------------
 -- Enables pins of the given pinType
 --
--- pinType:       pinTypeId or pinTypeString
+-- pinType: pinTypeId or pinTypeString
 -------------------------------------------------------------------------------
 function lib:Enable(pinType)
     self:SetEnabled(pinType, true)
@@ -512,7 +510,7 @@ end
 -------------------------------------------------------------------------------
 -- Disables pins of the given pinType
 --
--- pinType:       pinTypeId or pinTypeString
+-- pinType: pinTypeId or pinTypeString
 -------------------------------------------------------------------------------
 function lib:Disable(pinType)
     self:SetEnabled(pinType, false)
@@ -522,31 +520,30 @@ end
 -- lib:AddPinFilter(pinType, pinCheckboxText, separate, savedVars, savedVarsPveKey, savedVarsPvpKey, savedVarsImperialPvpKey)
 -------------------------------------------------------------------------------
 -- Adds filter checkboxes to the world map.
--- Returns: pveCheckbox, pvpCheckbox
--- (newly created checkbox controls for PvE and PvP context of the world map)
+-- Returns: pveCheckbox, pvpCheckbox (newly created checkbox controls for PvE and PvP context of the world map)
 --
--- pinType:       pinTypeId or pinTypeString
--- pinCheckboxText: (nilable), description displayed next to the checkbox, if nil
---                pinCheckboxText = pinTypeString
--- separate:      (nilable), if false or nil, checkboxes for PvE and PvP context
---                will be linked together. If savedVars argument is nil, separate
---                is ignored and checkboxes will be linked together.
--- savedVars:     (nilable), table where you store filter settings
--- savedVarsPveKey: (nilable), key in the savedVars table where you store filter
---                state for PvE context. If savedVars table exists but this key
---                is nil, state will be stored in savedVars[pinTypeString].
--- savedVarsPvpKey: (nilable), key in the savedVars table where you store filter
---                state for PvP context, used only if separate is true. If separate
---                is true, savedVars exists but this argument is nil, state will
---                be stored in savedVars[pinTypeString .. "_pvp"].
--- savedVarsImperialPvpKey: (nilable), key in the savedVars table where you store
---                filter state for Imperial City PvP context, used only if separate
---                is true. If separate is true, savedVars exists but this argument
---                is nil, state will be stored in savedVars[pinTypeString .. "_imperialPvP"].
+-- pinType:                  pinTypeId or pinTypeString
+-- pinCheckboxText:          (nilable), description displayed next to the checkbox, if nil
+--                           pinCheckboxText = pinTypeString
+-- separate:                 (nilable), if false or nil, checkboxes for PvE and PvP context
+--                           will be linked together. If savedVars argument is nil, separate
+--                           is ignored and checkboxes will be linked together.
+-- savedVars:                (nilable), table where you store filter settings
+-- savedVarsPveKey:          (nilable), key in the savedVars table where you store filter
+--                           state for PvE context. If savedVars table exists but this key
+--                           is nil, state will be stored in savedVars[pinTypeString].
+-- savedVarsPvpKey:          (nilable), key in the savedVars table where you store filter
+--                           state for PvP context, used only if separate is true. If separate
+--                           is true, savedVars exists but this argument is nil, state will
+--                           be stored in savedVars[pinTypeString .. "_pvp"].
+-- savedVarsImperialPvpKey:  (nilable), key in the savedVars table where you store
+--                           filter state for Imperial City PvP context, used only if separate
+--                           is true. If separate is true, savedVars exists but this argument
+--                           is nil, state will be stored in savedVars[pinTypeString .. "_imperialPvP"].
 -- savedVarsBattlegroundKey: (nilable), key in the savedVars table where you store
---                filter state for Battleground PvP context, used only if separate
---                is true. If separate is true, savedVars exists but this argument
---                is nil, state will be stored in savedVars[pinTypeString .. "_battleground"].
+--                           filter state for Battleground PvP context, used only if separate
+--                           is true. If separate is true, savedVars exists but this argument
+--                           is nil, state will be stored in savedVars[pinTypeString .. "_battleground"].
 -------------------------------------------------------------------------------
 function lib:AddPinFilter(pinType, pinCheckboxText, separate, savedVars, savedVarsPveKey, savedVarsPvpKey, savedVarsImperialPvpKey, savedVarsBattlegroundKey)
     local pinTypeId, pinTypeString = GetPinTypeIdAndString(pinType)
@@ -644,43 +641,40 @@ end
 -------------------------------------------------------------------------------
 -- Returns zone and subzone derived from map texture.
 
--- You can select from 2 formats:
--- 1: "zone", "subzone"                     (that's what I use in my addons)
--- 2: "zone/subzone"                        (used by HarvestMap)
--- If 2nd argument is nil or false, function returns first format
-
--- Additionally if the third argument bKeepMapNBum is true you will preserve
--- the ending of the map texture.
--- 3: "zone/subzone_0" or "zone", "subzone_0" (used by Destinations)
+-- You can select from 3 formats:
+-- 1: "zone", "subzone" (Lorebooks, Skyshards, ...)
+-- 2: "zone/subzone"    (HarvestMap, ...) If 2nd argument is nil or false, function returns first format
+-- 3: "zone/subzone_0" or "zone", "subzone_0" (Destinations, ...) Additionally if the third argument bKeepMapNBum is true you will preserve the ending of the map texture.
 -------------------------------------------------------------------------------
---[[ changed to cover these situations
-    Reference https://wiki.esoui.com/Texture_List/ESO/art/maps
-
-   "/art/maps/southernelsweyr/els_dragonguard_island05_base_8.dds",
-   "/art/maps/murkmire/tsofeercavern01_1.dds",
-   "/art/maps/housing/blackreachcrypts.base_0.dds",
-   "/art/maps/housing/blackreachcrypts.base_1.dds",
-   "Art/maps/skyrim/blackreach_base_0.dds",
-   "Textures/maps/summerset/alinor_base.dds",
-   "art/maps/murkmire/ui_map_tsofeercavern01_0.dds",
-   "art/maps/elsweyr/jodesembrace1.base_0.dds",
-]]--
-
-local function mysplit(inputstr)
-    local t = {}
-    for str in string.gmatch(inputstr, "([^%/]+)") do
-        table.insert(t, str)
+-- changed to cover these situations:
+-- Reference https://wiki.esoui.com/Texture_List/ESO/art/maps
+--
+-- "/art/maps/southernelsweyr/els_dragonguard_island05_base_8.dds",
+-- "/art/maps/murkmire/tsofeercavern01_1.dds",
+-- "/art/maps/housing/blackreachcrypts.base_0.dds",
+-- "/art/maps/housing/blackreachcrypts.base_1.dds",
+-- "Art/maps/skyrim/blackreach_base_0.dds",
+-- "Textures/maps/summerset/alinor_base.dds",
+-- "art/maps/murkmire/ui_map_tsofeercavern01_0.dds",
+-- "art/maps/elsweyr/jodesembrace1.base_0.dds",
+-------------------------------------------------------------------------------
+local function SplitStringBySlash(mapTexture)
+    local strTable = {}
+    for str in string.gmatch(mapTexture, "([^%/]+)") do
+        table.insert(strTable, str)
     end
-    return t
+    return unpack(strTable)
 end
 
 function lib:GetZoneAndSubzone(alternative, bStripUIMap, bKeepMapNum)
     local mapTexture = GetMapTileTexture():lower()
     mapTexture = mapTexture:gsub("^.*/maps/", "")
+    mapTexture = mapTexture:gsub("%.dds$", "")
+
     if bStripUIMap == true then
         mapTexture = mapTexture:gsub("ui_map_", "")
     end
-    mapTexture = mapTexture:gsub("%.dds$", "")
+
     if not bKeepMapNum then
         mapTexture = mapTexture:gsub("%d*$", "")
         mapTexture = mapTexture:gsub("_+$", "")
@@ -690,14 +684,14 @@ function lib:GetZoneAndSubzone(alternative, bStripUIMap, bKeepMapNum)
         return mapTexture
     end
 
-    return unpack(mysplit(mapTexture))
+    return SplitStringBySlash(mapTexture)
 end
 
 
 -------------------------------------------------------------------------------
 -- Callbacks ------------------------------------------------------------------
 -------------------------------------------------------------------------------
---refresh checkbox state for world map filters
+-- Refresh checkbox state for world map filters.
 function lib.OnMapChanged()
     local context
     local mapFilterType = GetMapFilterType()
@@ -732,7 +726,7 @@ end
 -------------------------------------------------------------------------------
 -- Hooks ----------------------------------------------------------------------
 -------------------------------------------------------------------------------
--- support "grayscale" in pinLayoutData
+-- Supports "grayscale" in pinLayoutData.
 -------------------------------------------------------------------------------
 ZO_PostHook(ZO_MapPin, "SetData", function(self, pinType)
     local singlePinData = ZO_MapPin.PIN_DATA[pinType]
@@ -895,149 +889,14 @@ end
 -- Displays the player position on current map.
 -- The output format is prepared for the data collection.
 -------------------------------------------------------------------------------
-local function show_position()
+local function ShowPlayerLocationInfo()
     local x, y, zone, subzone, mapName = lib:MyPosition()
-    d(string.format("[\"%s\"][\"%s\"] = { %0.5f, %0.5f } -- %s", zone, subzone, x, y, mapName))
+    df("[\"%s\"][\"%s\"] = { %0.5f, %0.5f } -- %s", zone, subzone, x, y, mapName)
 end
 
-SLASH_COMMANDS["/lmploc"] = function() show_position() end
+SLASH_COMMANDS["/lmploc"] = ShowPlayerLocationInfo
 
 -------------------------------------------------------------------------------
--- Useful methods for pins:
+-- Global call, if not called with LibStub
 -------------------------------------------------------------------------------
---
--- pin:GetControl()
--- pin:GetPinType()
--- pin:GetPinTypeAndTag()
--- pin:GetLevel()
--- pin:GetNormalizedPosition()
--- pin:SetData(pinType, pinTag)
--- pin:SetLocation(xLoc, yLoc, raduis)
--- pin:SetRotation(angle)
--- pin:UpdateLocation()
--------------------------------------------------------------------------------
-
-
---[[---------------------------------------------------------------------------
--- Sample code:
--------------------------------------------------------------------------------
--- MapPinTest/MapPintest.txt
--------------------------------------------------------------------------------
-## Title: MapPinTest
-## APIVersion: 100012
-## SavedVariables: MapPinTest_SavedVariables
-
-Libs/LibStub/LibStub.lua
-Libs/LibMapPins-1.0/LibMapPins-1.0.lua
-
-MapPinTest.lua
-
--------------------------------------------------------------------------------
--- MapPinTest/MapPinTest.lua
--------------------------------------------------------------------------------
-local LMP = LibStub("LibMapPins-1.0")
-
-local pinType1 = "My_unique_name"
-local pinType2 = "My_even_more_unique_name"
-local pinTypeId1, pinTypeId2
-
---sample data
-local pinData = {
-   ["auridon/auridon_base"] = {
-      { x = 0.5432, y = 0.6789 },
-   },
-   ["alikr/alikr_base"] = {
-      { x = 0.4343, y = 0.5353 },
-   },
-}
-
---sample layout
-local pinLayoutData  = {
-   level = 50,
-   texture = "EsoUI/Art/MapPins/hostile_pin.dds",
-   size = 30,
-}
-
---tooltip creator
-local pinTooltipCreator = {
-   creator = function(pin)
-      local locX, locY = pin:GetNormalizedPosition()
-        InformationTooltip:AddLine(zo_strformat("Position of my pin is: <<1>>•<<2>>", ("%05.02f"):format(locX*100), ("%05.02f"):format(locY*100)))
-   end,
-   tooltip = ZO_MAP_TOOLTIP_MODE.INFORMATION,
-}
-
---click handlers
-local LMB_handler = {
-   {
-      name = "LMB action 1",
-      callback = function(pin) d("LMB action 1!") end,
-      show = function(pin) return pin:GetControl():GetHeight() == 30 end,
-   },
-   {
-      name = "LMB action 2",
-      callback = function(pin) d("LMB action 2!") end,
-      show = function(pin) return pin:GetControl():GetHeight() == 20 end,
-   },
-}
-local RMB_handler = {
-   {
-      name = "RMB action",
-      callback = function(pin) d("RMB action!") end,
-   },
-}
-
---add callback function
-local pinTypeAddCallback = function(pinManager)
-   --do not create pins if your pinType is not enabled
-   if not LMP:IsEnabled(pinType1) then return end
-   --do not create pins on world, alliance and cosmic maps
-   if (GetMapType() > MAPTYPE_ZONE) then return end
-
-   local mapname = LMP:GetZoneAndSubzone(true)
-   local pins = pinData[mapname]
-   --return if no data for the current map
-   if not pins then return end
-
-   for _, pinInfo in ipairs(pins) do
-      LMP:CreatePin(pinType1, pinInfo, pinInfo.x, pinInfo.y)
-   end
-end
-
---resize callback function (usually just nil)
-local pinTypeOnResizeCallback = function(pinManager, mapWidth, mapHeight)
-   local visibleWidth, visibleHeight = ZO_WorldMapScroll:GetDimensions()
-   local currentZoom = mapWidth / visibleWidth
-
-   if currentZoom < 1.5 then
-      LMP:SetLayoutData(pinType1, pinLayoutData)
-      LMP:RefreshPins(pinType1)
-   else
-      LMP:SetLayoutData(pinType1, {})
-      LMP:RefreshPins(pinType1)
-   end
-end
-
-local function OnAddOnLoaded(eventCode, name)
-   if name ~= "MapPinTest" then return end
-
-   --saved variables
-   savedVars = ZO_SavedVars:New("MapPinTest_SavedVariables", 1, nil, { filters = true })
-   --initialize map pins
-   pinTypeId1 = LMP:AddPinType(pinType1, pinTypeAddCallback, pinTypeOnResizeCallback, pinLayoutData, pinTooltipCreator)
-   pinTypeId2 = LMP:AddPinType(pinType2, function() d("refresh") end)
-   --set click handlers
-   LMP:SetClickHandlers(pinTypeId1, LMB_handler, RMB_handler)
-   --add pin filters to the world map
-   LMP:AddPinFilter(pinTypeId1, "MapPinTest's pins", false, savedVars, "filters")
-   LMP:AddPinFilter(pinTypeId2, nil, nil, savedVars)
-
-   EVENT_MANAGER:UnregisterForEvent("MapPinTest_OnLoad", eventCode)
-end
-
-EVENT_MANAGER:RegisterForEvent("MapPinTest_OnLoad", EVENT_ADD_ON_LOADED, OnAddOnLoaded)
--------------------------------------------------------------------------------
--- END of sample code
---]]---------------------------------------------------------------------------
-
 LibMapPins = lib
