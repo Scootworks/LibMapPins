@@ -85,18 +85,14 @@ end
 --
 -- pinType:             either pinTypeId or pinTypeString, you can use both
 -- pinTypeString:       unique string name of your choice (it will be used as a name for global variable)
--- pinTypeId:           unique number code for your pin type, return value from lib:AddPinType
---                      ( local pinTypeId = _G[pinTypeString] )
+-- pinTypeId:           unique number code for your pin type, return value from lib:AddPinType ( local pinTypeId = _G[pinTypeString] )
 -- pinLayoutData:       table which can contain the following keys:
 --              level = number > 2, pins with higher level are drawn on the top of pins with lower level.
 --                      Examples: Points of interest 50, quests 110, group members 130, wayshrine 140, player 160.
---            texture = string of function(pin). Function can return just one texture
---                      or overlay, pulse and glow textures.
+--            texture = string of function(pin). Function can return just one texture or overlay, pulse and glow textures.
 --               size = texture will be resized to size*size, if not specified size is 20.
---              tint  = ZO_ColorDef object or function(pin) which returns this object.
---                      If defined, color of background texture is set to this color.
---          grayscale = true/false, could be function(pin). If defined and not false,
---                      background texure will be converted to grayscale (https://en.wikipedia.org/wiki/Colorfulness)
+--              tint  = ZO_ColorDef object or function(pin) which returns this object. If defined, color of background texture is set to this color.
+--          grayscale = true/false, could be function(pin). If defined and not false, background texure will be converted to grayscale (https://en.wikipedia.org/wiki/Colorfulness)
 --             insetX = size of transparent texture border, used to handle mouse clicks
 --             insetY = dito
 --            minSize = (optional) number, default value is 18
@@ -115,8 +111,7 @@ end
 -- pinTypeOnResizeCallback: (nilable) function(pinManager, mapWidth, mapHeight), is called when map is resized (zoomed).
 -- pinLayoutData:           (nilable) table, details above
 -- pinTooltipCreator:       (nilable) etiher string to display or table with the following keys:
---                creator = function(pin) that creates tooltip, or I should say function that will be called when mouse is over the pin,
---                          it does not need to create tooltip.
+--                creator = function(pin) that creates tooltip, or I should say function that will be called when mouse is over the pin, it does not need to create tooltip.
 --                tooltip = (nilable) tooltip mode, number between 1 and 4. They are defined in mappin.lua as follows:
 --                          ZO_MAP_TOOLTIP_MODE =
 --                          {
@@ -523,27 +518,19 @@ end
 -- Returns: pveCheckbox, pvpCheckbox (newly created checkbox controls for PvE and PvP context of the world map)
 --
 -- pinType:                  pinTypeId or pinTypeString
--- pinCheckboxText:          (nilable), description displayed next to the checkbox, if nil
---                           pinCheckboxText = pinTypeString
--- separate:                 (nilable), if false or nil, checkboxes for PvE and PvP context
---                           will be linked together. If savedVars argument is nil, separate
---                           is ignored and checkboxes will be linked together.
+-- pinCheckboxText:          (nilable), description displayed next to the checkbox,
+--                           if nil pinCheckboxText = pinTypeString (nilable),
+--                           if false or nil, checkboxes for PvE and PvP context will be linked together.
+--                           If savedVars argument is nil, separate is ignored and checkboxes will be linked together.
 -- savedVars:                (nilable), table where you store filter settings
--- savedVarsPveKey:          (nilable), key in the savedVars table where you store filter
---                           state for PvE context. If savedVars table exists but this key
---                           is nil, state will be stored in savedVars[pinTypeString].
--- savedVarsPvpKey:          (nilable), key in the savedVars table where you store filter
---                           state for PvP context, used only if separate is true. If separate
---                           is true, savedVars exists but this argument is nil, state will
---                           be stored in savedVars[pinTypeString .. "_pvp"].
--- savedVarsImperialPvpKey:  (nilable), key in the savedVars table where you store
---                           filter state for Imperial City PvP context, used only if separate
---                           is true. If separate is true, savedVars exists but this argument
---                           is nil, state will be stored in savedVars[pinTypeString .. "_imperialPvP"].
--- savedVarsBattlegroundKey: (nilable), key in the savedVars table where you store
---                           filter state for Battleground PvP context, used only if separate
---                           is true. If separate is true, savedVars exists but this argument
---                           is nil, state will be stored in savedVars[pinTypeString .. "_battleground"].
+-- savedVarsPveKey:          (nilable), key in the savedVars table where you store filter state for PvE context.
+--                           If savedVars table exists but this key is nil, state will be stored in savedVars[pinTypeString].
+-- savedVarsPvpKey:          (nilable), key in the savedVars table where you store filter state for PvP context, used only if separate is true.
+--                           If separate is true, savedVars exists but this argument is nil, state will be stored in savedVars[pinTypeString .. "_pvp"].
+-- savedVarsImperialPvpKey:  (nilable), key in the savedVars table where you store filter state for Imperial City PvP context, used only if separate is true.
+--                           If separate is true, savedVars exists but this argument is nil, state will be stored in savedVars[pinTypeString .. "_imperialPvP"].
+-- savedVarsBattlegroundKey: (nilable), key in the savedVars table where you store filter state for Battleground PvP context, used only if separate is true.
+--                           If separate is true, savedVars exists but this argument is nil, state will be stored in savedVars[pinTypeString .. "_battleground"].
 -------------------------------------------------------------------------------
 function lib:AddPinFilter(pinType, pinCheckboxText, separate, savedVars, savedVarsPveKey, savedVarsPvpKey, savedVarsImperialPvpKey, savedVarsBattlegroundKey)
     local pinTypeId, pinTypeString = GetPinTypeIdAndString(pinType)
