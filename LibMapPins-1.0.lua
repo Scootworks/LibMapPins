@@ -651,7 +651,7 @@ end
 -- context:     which instance of the filter: "pve", "pvp", "imperialPvP" or "battleground"
 -- hidden:      true for hiding the filter, false for showing it
 -------------------------------------------------------------------------------
-function lib:SetPinFilterHidden(pinType, context, hidden) 
+function lib:SetPinFilterHidden(pinType, context, hidden)
     local pinTypeId, pinTypeString = GetPinTypeIdAndString(pinType)
 
 	if pinTypeId and self.filters[pinTypeId] then
@@ -925,7 +925,7 @@ end
 
 -------------------------------------------------------------------------------
 -- Displays the player position on current map.
--- The output format is prepared for the data collection.
+-- The output format is prepared for data collection.
 -------------------------------------------------------------------------------
 local function show_position()
     local x, y, zone, subzone, mapName = lib:MyPosition()
