@@ -337,7 +337,7 @@ end
 --       show = function(pin) end, (optional) default is true. Callback function
 --                is called only when show returns true.
 --       duplicates = function(pin1, pin2) end, (optional) default is true.
---                What happens when mouse lick hits more than one pin. If true,
+--                What happens when mouse click hits more than one pin. If true,
 --                pins are considered to be duplicates and just one callback
 --                function is called.
 --       gamepadName = the same as name, but for gamepad
